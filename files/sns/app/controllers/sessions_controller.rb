@@ -3,7 +3,8 @@ class SessionsController < ApplicationController
 
   def create
     begin
-      user = User.find_by "login_id='#{params[:login_id]}' and pass='#{ Digest::MD5.hexdigest params[:pass] }'"
+      user_pass = Digest::MD5.hexdigest params[:pass]
+      user = User.find_by(login_id: params[:login_id],pass:user_pass)
       log_in user
       render json: {name: user.name, icon: icon_user_path(user)} and return
     rescue
