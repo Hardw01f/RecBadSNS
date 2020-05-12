@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.create params[:user].permit!
+    user = User.create params[:user].permit(:name, :login_id, :email, :pass, :icon_file_name, :admin)
     render json: {errors: user.errors.full_messages}, status: :bad_request and return if user.errors.any?
     UserMailer.with(user: user, url: request.base_url).welcome.deliver_later
     log_in user
