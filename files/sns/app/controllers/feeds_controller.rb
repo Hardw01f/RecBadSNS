@@ -27,7 +27,7 @@ class FeedsController < ApplicationController
   end
 
   def index
-    feeds = Feed.joins(:user).where("user_id IN (#{scope_user_ids.join(', ')})").select('feeds.*,users.name').order('id DESC').limit(30)
+    feeds = Feed.joins(:user).where(user_id: scope_user_ids).select('feeds.*,users.name').order(id: 'DESC').limit(30)
     render json: {count: feeds.count, feeds: feeds} and return
   end
 
