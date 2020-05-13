@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true, length: {maximum: 20}
   validates :pass, presence: true
   validates :admin, inclusion: {in: [true, false]}
+  validates :icon_file_name, presence: true, length: {maximum: 255}, format: {with: /\A[-]?[.]?[a-z0-9]+\z/}, uniqueness: true
 
   before_create :hash_password
   def hash_password
