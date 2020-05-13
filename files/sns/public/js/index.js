@@ -299,11 +299,19 @@ const main = () => {
     } else {
       // 画像フィードの場合
       const caption = (feed.exif.length > 1) ? `${feed.exif}にて撮影` : '';
+      const escaped_caption = escape_html(caption)
       fragment.getElementById('content').innerHTML = `
         <img class='img-responsive img-thumbnail' src='/images/${feed.image_file_name}'>
-        <br><small class='exif'>${caption}</small>`;
+        <br><small class='exif'>${escaped_caption}</small>`;
     }
     return fragment;
+  }
+
+  function escape_html (string) {
+      if(typeof string !== 'string') {
+        return string;
+      }
+      return string.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
   // OpenGraph情報からサムネイルのDOM生成
