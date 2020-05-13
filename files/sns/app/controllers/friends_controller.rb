@@ -24,7 +24,7 @@ class FriendsController < ApplicationController
 
   def search
     ignore_ids = [@current_user.id] + @current_user.friend_ids
-    friends = User.where("name LIKE ?","%#{params[:name]}%").where.not(id: ignore_ids).order(name: "ASC")
+    friends = User.where("name LIKE ?","%#{params[:name]}%").where.not(id: ignore_ids).select('id, login_id, name, email, icon_file_name, created_at, updated_at').order(name: "ASC")
     render json: {friends: friends} and return
   end
 end
