@@ -14,6 +14,9 @@ class PasswordResetController < ApplicationController
     begin
       payload = decode_reset_token(params[:reset_token])
       user = User.find payload[:id]
+      if params[:pass].empty? then
+        render json: {errors: ['パスワードのリセットに失敗しました']}, status: :bad_request and return
+      end
       user.update(pass: Digest::MD5.hexdigest(params[:pass]))
       log_in user
       render json: {name: user.name, icon: icon_user_path(user)} and return
