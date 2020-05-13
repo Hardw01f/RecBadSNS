@@ -19,7 +19,7 @@ class FriendsController < ApplicationController
 
   def search
     ignore_ids = [@current_user.id] + @current_user.friend_ids
-    friends = User.where("name LIKE '%#{params[:name]}%' AND id NOT IN (#{ignore_ids.join(', ')})").order('name ASC')
+    friends = User.where("name LIKE ?","%#{params[:name]}%").where.not(id: ignore_ids).order(name: "ASC")
     render json: {friends: friends} and return
   end
 end
