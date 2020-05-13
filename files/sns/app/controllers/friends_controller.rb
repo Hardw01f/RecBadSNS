@@ -18,7 +18,7 @@ class FriendsController < ApplicationController
     else
       order = 'ASC'
     end
-    friends = User.where(id: friend_ids).order(name: order)
+    friends = User.where(id: friend_ids).select('id, login_id, name, email, icon_file_name, created_at, updated_at').order(name: order)
     render json: {friends: friends} and return
   end
 
