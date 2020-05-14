@@ -28,7 +28,7 @@ class ApplicationController < ActionController::API
   end
 
   def decode_token(token)
-    payload, header = JWT.decode token, Rails.application.secrets.secret_key_base, false
+    payload, header = JWT.decode(token, Rails.application.secrets.secret_key_base, true, { algorithm: 'HS256'})
     payload.with_indifferent_access
   end
 
